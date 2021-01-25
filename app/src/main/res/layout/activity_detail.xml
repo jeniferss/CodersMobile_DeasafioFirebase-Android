@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/imgGameDetail" />
 
         <TextView
-            android:id="@+id/tvAno"
+            android:id="@+id/tvAnoDetalhe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dim_28_dp"
@@ -84,7 +84,7 @@
             android:textSize="@dimen/dim_18_sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvAno" />
+            app:layout_constraintTop_toBottomOf="@id/tvAnoDetalhe" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnEditGame"
