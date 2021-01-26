@@ -18,7 +18,6 @@
         android:background="@color/colorWhite"
         android:elevation="@dimen/dim_2_dp"
         android:iconifiedByDefault="true"
-        android:voiceIcon="showVoiceSearchButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
