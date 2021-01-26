@@ -4,11 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.desafiofirebase.R
 import com.example.myapplication.desafiofirebase.detail.view.DetailActivity
 import com.example.myapplication.desafiofirebase.game.model.GameModel
+import com.example.myapplication.desafiofirebase.game.repository.GameRepository
+import com.example.myapplication.desafiofirebase.game.viewmodel.GameViewModel
+import com.example.myapplication.desafiofirebase.savegame.view.SaveGameActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -19,6 +23,7 @@ class HomeActivity : AppCompatActivity() {
     private val btnNewGame: FloatingActionButton by lazy { findViewById(R.id.btnNewGame) }
 
     private lateinit var _homeAdapter: HomeAdapter
+    private lateinit var _viewModel: GameViewModel
 
     private val _gameList = mutableListOf<GameModel>()
 
@@ -28,12 +33,22 @@ class HomeActivity : AppCompatActivity() {
 
         val manager = GridLayoutManager(this, 2)
 
+        viewModelProvider()
         setUpNavigation()
         setUpRecyclerView(recyclerView, manager)
+
+        btnNewGame.setOnClickListener {
+            val intent = Intent(this, SaveGameActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 
-    private fun setUpRecyclerView(recyclerView: RecyclerView, viewLayoutManager: GridLayoutManager){
+    private fun setUpRecyclerView(
+        recyclerView: RecyclerView,
+        viewLayoutManager: GridLayoutManager
+    ) {
         recyclerView.apply {
             setHasFixedSize(true)
             layoutManager = viewLayoutManager
@@ -41,8 +56,8 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpNavigation(){
-        _homeAdapter = HomeAdapter(_gameList){
+    private fun setUpNavigation() {
+        _homeAdapter = HomeAdapter(_gameList) {
             val intent = Intent(this@HomeActivity, DetailActivity::class.java)
             intent.putExtra("NAME", it.nome)
             intent.putExtra("LANCAMENTO", it.dataLancamento)
@@ -50,5 +65,12 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra("IMG_URL", it.imgUrl)
             startActivity(intent)
         }
+    }
+
+    private fun viewModelProvider() {
+        _viewModel =
+            ViewModelProvider(this, GameViewModel.GameViewModelFactory(GameRepository())).get(
+                GameViewModel::class.java
+            )
     }
 }

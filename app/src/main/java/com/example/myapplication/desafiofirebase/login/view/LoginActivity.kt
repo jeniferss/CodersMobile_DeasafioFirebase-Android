@@ -52,14 +52,18 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun camposVazios(email: String, senha: String): Boolean {
-        if (email.isEmpty()) {
-            etEmail.error = RegisterActivity.ERRO_VAZIO
-            return false
-        } else if (senha.isEmpty()) {
-            etSenha.error = RegisterActivity.ERRO_VAZIO
-            return false
-        } else {
-            return true
+        return when {
+            email.isEmpty() -> {
+                etEmail.error = RegisterActivity.ERRO_VAZIO
+                false
+            }
+            senha.isEmpty() -> {
+                etSenha.error = RegisterActivity.ERRO_VAZIO
+                false
+            }
+            else -> {
+                true
+            }
         }
     }
 
