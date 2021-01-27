@@ -31,9 +31,14 @@ class GameViewModel(private val repository: GameRepository): ViewModel() {
         emit(true)
     }
 
+    fun editGame(nome: String, data: String, description: String, imgURL: String, ref: DatabaseReference) = liveData(Dispatchers.IO) {
+        repository.editGame(ref, GameModel(nome, data, description, imgURL))
+        emit(true)
+    }
+
     fun getGames(ref: DatabaseReference, context: Context, list: MutableList<GameModel>) = liveData(Dispatchers.IO){
         val listGames = repository.getGames(ref, context, list)
-        _games = listGames
+        _games.addAll(listGames)
         emit(listGames as List<GameModel>)
     }
 

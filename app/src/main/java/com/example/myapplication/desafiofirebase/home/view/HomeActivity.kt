@@ -11,6 +11,7 @@ import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.myapplication.desafiofirebase.R
 import com.example.myapplication.desafiofirebase.detail.view.DetailActivity
 import com.example.myapplication.desafiofirebase.game.model.GameModel
@@ -24,11 +25,13 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.delay
 
 
 class HomeActivity : AppCompatActivity() {
 
     private val searchView: SearchView by lazy { findViewById(R.id.searchView) }
+    private val swipeRefreshLayout: SwipeRefreshLayout by lazy { findViewById(R.id.swipeToRefresh) }
 
     private val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerGames) }
     private val btnNewGame: FloatingActionButton by lazy { findViewById(R.id.btnNewGame) }
@@ -52,6 +55,7 @@ class HomeActivity : AppCompatActivity() {
         val manager = GridLayoutManager(this, 2)
 
         viewModelProvider()
+        refresh()
         setUpNavigation()
         setUpRecyclerView(recyclerView, manager)
         getGames(ref, this, _gameList)
@@ -60,10 +64,20 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, SaveGameActivity::class.java)
             startActivity(intent)
         }
-
     }
 
-    fun getGames(ref: DatabaseReference, context: Context, list: List<GameModel>) {
+    private fun refresh() {
+        swipeRefreshLayout.setOnRefreshListener {
+            SwipeRefreshLayout.OnRefreshListener {
+                _gameList.clear()
+            }
+            getGames(ref, this@HomeActivity, _gameList)
+            swipeRefreshLayout.isRefreshing = false
+            _homeAdapter.notifyDataSetChanged()
+        }
+    }
+
+    private fun getGames(ref: DatabaseReference, context: Context, list: List<GameModel>) {
         _viewModel.getGames(ref, context, _gameList).observe(this, {
             list.let {_gameList.addAll(it)}
             _homeAdapter.notifyDataSetChanged()

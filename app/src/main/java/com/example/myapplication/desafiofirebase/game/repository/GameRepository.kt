@@ -23,6 +23,10 @@ class GameRepository {
         newGame.setValue(gameModel)
     }
 
+    fun editGame(ref: DatabaseReference, gameModel: GameModel){
+        ref.setValue(gameModel)
+    }
+
     suspend fun getGames(
         ref: DatabaseReference,
         context: Context,
@@ -72,5 +76,4 @@ class GameRepository {
         delay(1500)
         return list
     }
-
 }

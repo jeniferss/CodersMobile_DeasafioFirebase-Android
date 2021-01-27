@@ -23,18 +23,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerGames"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeToRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/dim_10_dp"
         android:layout_marginTop="@dimen/dim_70_dp"
         android:layout_marginEnd="@dimen/dim_10_dp"
-        android:isScrollContainer="true"
         app:layout_constraintEnd_toEndOf="@id/searchView"
         app:layout_constraintStart_toStartOf="@+id/searchView"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
+        app:layout_constraintTop_toBottomOf="@+id/searchView">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerGames"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:isScrollContainer="true"
         tools:listitem="@layout/item_game" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnNewGame"

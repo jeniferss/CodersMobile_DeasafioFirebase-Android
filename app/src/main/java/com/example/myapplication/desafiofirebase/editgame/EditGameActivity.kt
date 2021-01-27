@@ -1,11 +1,11 @@
-package com.example.myapplication.desafiofirebase.savegame.view
+package com.example.myapplication.desafiofirebase.editgame
 
 import android.content.Intent
 import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.webkit.MimeTypeMap
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.desafiofirebase.R
 import com.example.myapplication.desafiofirebase.game.repository.GameRepository
@@ -15,13 +15,13 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
-class SaveGameActivity : AppCompatActivity() {
+class EditGameActivity : AppCompatActivity() {
 
     private val btnSave: MaterialButton by lazy { findViewById(R.id.btnSave) }
     private val etNameGame: TextInputEditText by lazy { findViewById(R.id.etNameGame) }
@@ -43,29 +43,32 @@ class SaveGameActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_save_game)
 
-        auth = Firebase.auth
+        val nomeAtual = intent.getStringExtra("NAMEA")
+        val descricaoAtual = intent.getStringExtra("DESCRICAOA")
+        val dataAtual = intent.getStringExtra("LANCAMENTOA")
+        val imgAtual = intent.getStringExtra("IMG_URL")
+
+        etNameGame.setText(nomeAtual)
+        etDataGame.setText(dataAtual)
+        etDescriptionGame.setText(descricaoAtual)
+        Picasso.get().load(imgAtual).into(img)
 
         viewModelProvider()
-        addUser(auth.currentUser!!.uid, database)
+
+        auth = Firebase.auth
+        ref = database.getReference(auth.currentUser!!.uid).child(nomeAtual!!)
 
         img.setOnClickListener {
             getImage()
         }
-
 
         btnSave.setOnClickListener {
             val name = etNameGame.text.toString()
             val data = etDataGame.text.toString()
             val description = etDescriptionGame.text.toString()
 
-            addGame(ref, name, data, description, imgURL)
+            editGame(ref, name, data, description, imgURL)
         }
-    }
-
-    private fun addUser(userId: String, database: FirebaseDatabase) {
-        _viewModel.addUser(userId, database).observe(this, {
-            ref = it
-        })
     }
 
     override fun onBackPressed() {
@@ -73,17 +76,17 @@ class SaveGameActivity : AppCompatActivity() {
         goHome()
     }
 
-    private fun addGame(
+    private fun editGame(
         ref: DatabaseReference,
         nome: String,
         data: String,
         description: String,
         imgURL: String
     ) {
-        _viewModel.addGame(nome, data, description, imgURL, ref).observe(this, {
+        _viewModel.editGame(nome, data, description, imgURL, ref).observe(this, {
             Toast.makeText(
-                this@SaveGameActivity,
-                "Game salvo com sucesso",
+                this@EditGameActivity,
+                "Game alterado com sucesso",
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -115,13 +118,13 @@ class SaveGameActivity : AppCompatActivity() {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             imgUri = data?.data!!
             img.setImageURI(imgUri)
-            sendImg(auth.currentUser!!.uid)
+            sendNewImg(auth.currentUser!!.uid)
         } else {
             Toast.makeText(this, "Erro ao salvar imagem", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun sendImg(userId: String) {
+    private fun sendNewImg(userId: String) {
         imgUri.run {
 
             val extension = MimeTypeMap.getSingleton()
@@ -134,11 +137,15 @@ class SaveGameActivity : AppCompatActivity() {
                 fileRef.downloadUrl.addOnSuccessListener {
                     imgURL = it.toString()
                 }
+                    .addOnFailureListener {
+                        imgURL = ""
+                        Toast.makeText(this@EditGameActivity, "Erro ao salvar imagem", Toast.LENGTH_SHORT).show()
+                    }
             }
         }
     }
 
     companion object {
-        const val CAMERA_REQUEST = 3
+        const val CAMERA_REQUEST = 4
     }
 }

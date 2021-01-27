@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.myapplication.desafiofirebase.R
+import com.example.myapplication.desafiofirebase.editgame.EditGameActivity
 import com.example.myapplication.desafiofirebase.savegame.view.SaveGameActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
@@ -35,8 +36,6 @@ class DetailActivity : AppCompatActivity() {
 
         btnEditGame.setOnClickListener {
             editGame(nome, data, descricao)
-            val intent = Intent(this, SaveGameActivity::class.java)
-            startActivity(intent)
         }
 
         tvNomeDetail.text = nome
@@ -52,8 +51,10 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun editGame(nome: String?, data: String?, descricao: String?){
+        val intent = Intent(this, EditGameActivity::class.java)
         intent.putExtra("NAMEA", nome)
         intent.putExtra("LANCAMENTOA", data)
         intent.putExtra("DESCRICAOA", descricao)
+        startActivity(intent)
     }
 }

@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication.desafiofirebase">
 
-    <uses-permission android:name="android.permission.CAMERA"></uses-permission>
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,12 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".savegame.view.SaveGameActivity"/>
+        <activity android:name=".editgame.EditGameActivity"></activity>
+        <activity android:name=".savegame.view.SaveGameActivity" />
         <activity android:name=".register.view.RegisterActivity" />
         <activity android:name=".login.view.LoginActivity" />
-        <activity android:name=".home.view.HomeActivity" >
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/search"/>
+        <activity android:name=".home.view.HomeActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/search" />
         </activity>
         <activity android:name=".detail.view.DetailActivity" />
         <activity android:name=".splashscreen.view.SplashActivity">
