@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.desafiofirebase.R
 import com.example.myapplication.desafiofirebase.game.repository.GameRepository
 import com.example.myapplication.desafiofirebase.game.viewmodel.GameViewModel
+import com.example.myapplication.desafiofirebase.home.view.HomeActivity
+import com.example.myapplication.desafiofirebase.register.view.RegisterActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -57,6 +59,7 @@ class EditGameActivity : AppCompatActivity() {
 
         auth = Firebase.auth
         ref = database.getReference(auth.currentUser!!.uid).child(nomeAtual!!)
+        val refId = database.getReference(auth.currentUser!!.uid)
 
         img.setOnClickListener {
             getImage()
@@ -67,13 +70,41 @@ class EditGameActivity : AppCompatActivity() {
             val data = etDataGame.text.toString()
             val description = etDescriptionGame.text.toString()
 
-            editGame(ref, name, data, description, imgURL)
+            if(camposVazios(name, data, description)) {
+                noImage(imgURL)
+                editGame(ref, name, data, description, imgURL, refId)
+            }
+        }
+    }
+
+    private fun camposVazios(
+        nome: String,
+        data: String,
+        description: String
+    ): Boolean {
+        if (nome.isEmpty()) {
+            etNameGame.error = RegisterActivity.ERRO_VAZIO
+            return false
+        } else if (data.isEmpty()) {
+            etDataGame.error = RegisterActivity.ERRO_VAZIO
+            return false
+        } else if (description.isEmpty()) {
+            etDescriptionGame.error = RegisterActivity.ERRO_VAZIO
+            return false
+        } else {
+            return true
+        }
+    }
+
+    private fun noImage(imgPath: String){
+        if(imgPath.isNullOrEmpty()){
+            imgURL = "https://www.solidbackgrounds.com/images/1024x600/1024x600-black-solid-color-background.jpg"
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        goHome()
+        finish()
     }
 
     private fun editGame(
@@ -81,9 +112,9 @@ class EditGameActivity : AppCompatActivity() {
         nome: String,
         data: String,
         description: String,
-        imgURL: String
+        imgURL: String, refId: DatabaseReference
     ) {
-        _viewModel.editGame(nome, data, description, imgURL, ref).observe(this, {
+        _viewModel.editGame(nome, data, description, imgURL, ref, refId).observe(this, {
             Toast.makeText(
                 this@EditGameActivity,
                 "Game alterado com sucesso",
@@ -102,6 +133,8 @@ class EditGameActivity : AppCompatActivity() {
     }
 
     private fun goHome() {
+        val intent = Intent(this, HomeActivity::class.java)
+        startActivity(intent)
         finish()
     }
 
@@ -133,15 +166,28 @@ class EditGameActivity : AppCompatActivity() {
             val storageRef = storage.getReference("${userId}/imgGames")
             val fileRef = storageRef.child("${System.currentTimeMillis()}.${extension}")
 
-            fileRef.putFile(imgUri).addOnSuccessListener {
-                fileRef.downloadUrl.addOnSuccessListener {
-                    imgURL = it.toString()
-                }
-                    .addOnFailureListener {
-                        imgURL = ""
-                        Toast.makeText(this@EditGameActivity, "Erro ao salvar imagem", Toast.LENGTH_SHORT).show()
+            fileRef.putFile(imgUri)
+                .addOnSuccessListener {
+                    fileRef.downloadUrl.addOnSuccessListener {
+                        imgURL = it.toString()
                     }
-            }
+                        .addOnFailureListener {
+                            imgURL =
+                                "https://www.solidbackgrounds.com/images/1024x600/1024x600-black-solid-color-background.jpg"
+                            Toast.makeText(
+                                this@EditGameActivity,
+                                "Erro ao salvar imagem",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        this@EditGameActivity,
+                        "Erro ao salvar imagem",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
         }
     }
 

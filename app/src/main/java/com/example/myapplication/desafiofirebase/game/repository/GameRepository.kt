@@ -23,8 +23,9 @@ class GameRepository {
         newGame.setValue(gameModel)
     }
 
-    fun editGame(ref: DatabaseReference, gameModel: GameModel){
-        ref.setValue(gameModel)
+    fun editGame(ref: DatabaseReference, gameModel: GameModel, refUser: DatabaseReference){
+        ref.removeValue()
+        addGame(refUser, gameModel)
     }
 
     suspend fun getGames(

@@ -56,5 +56,6 @@ class DetailActivity : AppCompatActivity() {
         intent.putExtra("LANCAMENTOA", data)
         intent.putExtra("DESCRICAOA", descricao)
         startActivity(intent)
+        finish()
     }
 }

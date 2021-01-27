@@ -31,8 +31,8 @@ class GameViewModel(private val repository: GameRepository): ViewModel() {
         emit(true)
     }
 
-    fun editGame(nome: String, data: String, description: String, imgURL: String, ref: DatabaseReference) = liveData(Dispatchers.IO) {
-        repository.editGame(ref, GameModel(nome, data, description, imgURL))
+    fun editGame(nome: String, data: String, description: String, imgURL: String, ref: DatabaseReference, refUser: DatabaseReference) = liveData(Dispatchers.IO) {
+        repository.editGame(ref, GameModel(nome, data, description, imgURL), refUser)
         emit(true)
     }
 

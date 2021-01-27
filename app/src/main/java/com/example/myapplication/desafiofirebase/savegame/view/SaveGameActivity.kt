@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.desafiofirebase.R
 import com.example.myapplication.desafiofirebase.game.repository.GameRepository
 import com.example.myapplication.desafiofirebase.game.viewmodel.GameViewModel
+import com.example.myapplication.desafiofirebase.register.view.RegisterActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -52,13 +53,15 @@ class SaveGameActivity : AppCompatActivity() {
             getImage()
         }
 
-
         btnSave.setOnClickListener {
             val name = etNameGame.text.toString()
             val data = etDataGame.text.toString()
             val description = etDescriptionGame.text.toString()
 
-            addGame(ref, name, data, description, imgURL)
+            if(camposVazios(name, data, description)) {
+                noImage(imgURL)
+                addGame(ref, name, data, description, imgURL)
+            }
         }
     }
 
@@ -130,11 +133,53 @@ class SaveGameActivity : AppCompatActivity() {
             val storageRef = storage.getReference("${userId}/imgGames")
             val fileRef = storageRef.child("${System.currentTimeMillis()}.${extension}")
 
-            fileRef.putFile(imgUri).addOnSuccessListener {
-                fileRef.downloadUrl.addOnSuccessListener {
-                    imgURL = it.toString()
+            fileRef.putFile(imgUri)
+                .addOnSuccessListener {
+                    fileRef.downloadUrl.addOnSuccessListener {
+                        imgURL = it.toString()
+                    }
+                        .addOnFailureListener {
+                            imgURL =
+                                "https://www.solidbackgrounds.com/images/1024x600/1024x600-black-solid-color-background.jpg"
+                            Toast.makeText(
+                                this@SaveGameActivity,
+                                "Erro ao salvar imagem",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                 }
-            }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        this@SaveGameActivity,
+                        "Erro ao salvar imagem",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+    }
+
+    private fun camposVazios(
+        nome: String,
+        data: String,
+        description: String
+    ): Boolean {
+        if (nome.isEmpty()) {
+            etNameGame.error = RegisterActivity.ERRO_VAZIO
+            return false
+        } else if (data.isEmpty()) {
+            etDataGame.error = RegisterActivity.ERRO_VAZIO
+            return false
+        } else if (description.isEmpty()) {
+            etDescriptionGame.error = RegisterActivity.ERRO_VAZIO
+            return false
+        } else {
+            return true
+        }
+    }
+
+    private fun noImage(imgPath: String){
+        if(imgPath.isNullOrEmpty()){
+            imgURL = "https://www.solidbackgrounds.com/images/1024x600/1024x600-black-solid-color-background.jpg"
         }
     }
 
