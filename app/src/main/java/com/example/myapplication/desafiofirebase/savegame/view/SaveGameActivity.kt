@@ -1,6 +1,5 @@
 package com.example.myapplication.desafiofirebase.savegame.view
 
-import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,24 +8,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.desafiofirebase.R
-import com.example.myapplication.desafiofirebase.detail.view.DetailActivity
 import com.example.myapplication.desafiofirebase.game.repository.GameRepository
 import com.example.myapplication.desafiofirebase.game.viewmodel.GameViewModel
-import com.example.myapplication.desafiofirebase.home.view.HomeActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.ktx.storage
 import de.hdodenhof.circleimageview.CircleImageView
 import java.util.*
-
 
 class SaveGameActivity : AppCompatActivity() {
 
@@ -147,7 +141,7 @@ class SaveGameActivity : AppCompatActivity() {
                 .getExtensionFromMimeType(contentResolver.getType(imgUri))
 
             val storageRef = storage.getReference("${userId}/imgGames")
-            val fileRef = storageRef.child("${Calendar.MILLISECOND}.${extension}")
+            val fileRef = storageRef.child("${System.currentTimeMillis()}.${extension}")
 
             fileRef.putFile(imgUri).addOnSuccessListener {
                 fileRef.downloadUrl.addOnSuccessListener {

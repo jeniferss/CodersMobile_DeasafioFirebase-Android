@@ -30,7 +30,6 @@ class HomeActivity : AppCompatActivity() {
 
     private val searchView: SearchView by lazy { findViewById(R.id.searchView) }
 
-
     private val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerGames) }
     private val btnNewGame: FloatingActionButton by lazy { findViewById(R.id.btnNewGame) }
 
@@ -53,14 +52,15 @@ class HomeActivity : AppCompatActivity() {
         val manager = GridLayoutManager(this, 2)
 
         viewModelProvider()
-        getGames(ref, this, _gameList)
         setUpNavigation()
         setUpRecyclerView(recyclerView, manager)
+        getGames(ref, this, _gameList)
 
         btnNewGame.setOnClickListener {
             val intent = Intent(this, SaveGameActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     fun getGames(ref: DatabaseReference, context: Context, list: List<GameModel>) {
@@ -97,5 +97,26 @@ class HomeActivity : AppCompatActivity() {
             ViewModelProvider(this, GameViewModel.GameViewModelFactory(GameRepository())).get(
                 GameViewModel::class.java
             )
+    }
+
+    private fun searchByName(){
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                _viewModel.searchByName(query!!, this@HomeActivity, ref).observe(this@HomeActivity, {
+                    _gameList.clear()
+                    getGames(ref, this@HomeActivity, it)
+                })
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText.isNullOrEmpty()){
+                    _gameList.clear()
+                    getGames(ref, this@HomeActivity, _viewModel.initialList())
+                }
+                return false
+            }
+        })
     }
 }

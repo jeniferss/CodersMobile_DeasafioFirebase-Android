@@ -3,10 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/dim_10_dp"
-    android:layout_marginTop="@dimen/dim_10_dp"
-    android:layout_marginEnd="@dimen/dim_10_dp"
-    android:layout_marginBottom="@dimen/dim_10_dp"
+    android:layout_margin="@dimen/dim_5_dp"
     android:clickable="true"
     android:focusable="true"
     app:cardCornerRadius="@dimen/dim_10_dp">
@@ -19,21 +16,23 @@
         <ImageView
             android:id="@+id/imgCardPersonagem"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dim_200_dp"
+            android:layout_height="@dimen/dim_150_dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvNameGame"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dim_10_dp"
             android:layout_marginTop="@dimen/dim_16_dp"
             android:maxLines="2"
             android:text="Nome"
+            android:layout_marginEnd="@dimen/dim_10_dp"
+            app:layout_constraintEnd_toEndOf="parent"
             android:textAllCaps="true"
             android:textColor="@color/colorGrayDark"
             android:textSize="@dimen/dim_20_sp"
@@ -42,10 +41,12 @@
 
         <TextView
             android:id="@+id/tvDataAno"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dim_5_dp"
+            android:layout_marginEnd="@dimen/dim_10_dp"
+            android:layout_marginStart="@dimen/dim_10_dp"
             android:layout_marginBottom="@dimen/dim_16_dp"
             android:text="@string/ano"
             android:textColor="@color/colorGray"

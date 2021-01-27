@@ -53,10 +53,11 @@
 
         <TextView
             android:id="@+id/tvSecondNameGameDetalhes"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dim_28_dp"
             android:layout_marginTop="@dimen/dim_16_dp"
+            android:layout_marginEnd="@dimen/dim_28_dp"
             android:text="@string/name"
             android:textColor="@color/colorGrayDark"
             android:textSize="@dimen/dim_26_sp"
@@ -65,7 +66,8 @@
 
         <TextView
             android:id="@+id/tvAnoDetalhe"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginEnd="@dimen/dim_28_dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dim_28_dp"
             android:layout_marginTop="@dimen/dim_4_dp"
@@ -79,9 +81,10 @@
             android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="@dimen/dim_28_dp"
             android:layout_marginTop="@dimen/dim_20_dp"
             android:text="@string/description"
+            android:layout_marginEnd="@dimen/dim_28_dp"
             android:textColor="@color/colorGray"
             android:textSize="@dimen/dim_18_sp"
             app:layout_constraintEnd_toEndOf="parent"

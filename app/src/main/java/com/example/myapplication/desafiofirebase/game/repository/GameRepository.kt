@@ -12,6 +12,8 @@ import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.delay
+import java.lang.Thread.sleep
 
 
 class GameRepository {
@@ -21,15 +23,15 @@ class GameRepository {
         newGame.setValue(gameModel)
     }
 
-    fun getGames(
+    suspend fun getGames(
         ref: DatabaseReference,
         context: Context,
         list: MutableList<GameModel>
     ): MutableList<GameModel> {
 
-        list.clear()
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                list.clear()
                     for (dataSnapshot1 in dataSnapshot.children) {
                         val game: GameModel? = dataSnapshot1.getValue(GameModel::class.java)
                         list.add(game!!)
@@ -40,6 +42,7 @@ class GameRepository {
                 Toast.makeText(context, "Erro ao carregar lista", Toast.LENGTH_SHORT).show()
             }
         })
+        delay(1500)
         return list
     }
 
@@ -48,10 +51,26 @@ class GameRepository {
         return ref
     }
 
-    fun searchByName(nome: String, searchView: SearchView){
-        searchView.setOnQueryTextFocusChangeListener { v, hasFocus ->
+    suspend fun searchByName(nome: String, ref: DatabaseReference, list: MutableList<GameModel>, context: Context): MutableList<GameModel> {
+        val queryCamp = "nome"
 
-        }
+        val query = ref.child(nome).orderByChild(queryCamp).equalTo(nome)
+
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                list.clear()
+                for (dataSnapshot1 in snapshot.children) {
+                    val game: GameModel? = dataSnapshot1.getValue(GameModel::class.java)
+                    list.add(game!!)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, "Erro ao carregar lista", Toast.LENGTH_SHORT).show()
+            }
+        })
+        delay(1500)
+        return list
     }
 
 }

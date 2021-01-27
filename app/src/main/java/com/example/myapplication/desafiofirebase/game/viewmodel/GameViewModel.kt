@@ -18,8 +18,8 @@ import java.lang.Thread.sleep
 
 class GameViewModel(private val repository: GameRepository): ViewModel() {
 
-    private val _gamesBeforeSearch = mutableListOf<GameModel>()
-    private val _games = mutableListOf<GameModel>()
+    private var _gamesBeforeSearch = mutableListOf<GameModel>()
+    private var _games = mutableListOf<GameModel>()
 
     fun addUser(userId: String, databse: FirebaseDatabase) = liveData(Dispatchers.IO){
         repository.addUser(userId, databse)
@@ -32,12 +32,17 @@ class GameViewModel(private val repository: GameRepository): ViewModel() {
     }
 
     fun getGames(ref: DatabaseReference, context: Context, list: MutableList<GameModel>) = liveData(Dispatchers.IO){
-        val listGame = repository.getGames(ref, context, list)
-        emit(listGame as List<GameModel>)
+        val listGames = repository.getGames(ref, context, list)
+        _games = listGames
+        emit(listGames as List<GameModel>)
     }
 
-    fun searchByName(string: String) = liveData(Dispatchers.IO){
-        emit(true)
+    fun initialList() = _gamesBeforeSearch
+
+    fun searchByName(string: String, context: Context, ref: DatabaseReference) = liveData(Dispatchers.IO){
+        _gamesBeforeSearch = _games
+        val response = repository.searchByName(string, ref, _games, context)
+        emit(response)
     }
 
     class GameViewModelFactory(private val repository: GameRepository): ViewModelProvider.Factory {
