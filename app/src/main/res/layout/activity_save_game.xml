@@ -8,6 +8,18 @@
     android:orientation="vertical"
     tools:context=".savegame.view.SaveGameActivity">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgGame"
+        android:layout_width="@dimen/dim_100_dp"
+        android:layout_height="@dimen/dim_100_dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dim_100_dp"
+        android:elevation="@dimen/dim_4_dp"
+        android:src="@drawable/icon_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.cardview.widget.CardView
         android:id="@+id/lnlCard"
         android:layout_width="match_parent"
@@ -113,18 +125,5 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgGame"
-        android:layout_width="@dimen/dim_100_dp"
-        android:layout_height="@dimen/dim_100_dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/dim_100_dp"
-        android:elevation="@dimen/dim_10_dp"
-        android:src="@drawable/icon_camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

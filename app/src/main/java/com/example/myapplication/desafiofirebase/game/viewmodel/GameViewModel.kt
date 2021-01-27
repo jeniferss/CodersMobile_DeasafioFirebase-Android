@@ -1,6 +1,7 @@
 package com.example.myapplication.desafiofirebase.game.viewmodel
 
 import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -12,27 +13,30 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import java.lang.Thread.sleep
 
 class GameViewModel(private val repository: GameRepository): ViewModel() {
+
+    private val _gamesBeforeSearch = mutableListOf<GameModel>()
+    private val _games = mutableListOf<GameModel>()
 
     fun addUser(userId: String, databse: FirebaseDatabase) = liveData(Dispatchers.IO){
         repository.addUser(userId, databse)
         emit(repository.addUser(userId, databse))
     }
 
-
     fun addGame(nome: String, data: String, description: String, imgURL: String, ref: DatabaseReference) = liveData(Dispatchers.IO) {
         repository.addGame(ref, GameModel(nome, data, description, imgURL))
         emit(true)
     }
 
-    fun addImg(userId: String, nameGame: String, imgURI: Uri, firebaseStorage: FirebaseStorage, contentResolver: ContentResolver, circleImageView: CircleImageView) = liveData(Dispatchers.IO) {
-        val imgUrl = repository.sendImg(userId, nameGame, imgURI, firebaseStorage, contentResolver, circleImageView)
-        emit(imgUrl)
+    fun getGames(ref: DatabaseReference, context: Context, list: MutableList<GameModel>) = liveData(Dispatchers.IO){
+        val listGame = repository.getGames(ref, context, list)
+        emit(listGame as List<GameModel>)
     }
 
-    fun showImg(imgURI: Uri, circleImageView: CircleImageView) = liveData(Dispatchers.IO){
-        repository.showImg(imgURI, circleImageView)
+    fun searchByName(string: String) = liveData(Dispatchers.IO){
         emit(true)
     }
 

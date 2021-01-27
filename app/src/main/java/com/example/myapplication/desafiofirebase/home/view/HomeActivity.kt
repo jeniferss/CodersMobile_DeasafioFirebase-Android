@@ -1,8 +1,12 @@
 package com.example.myapplication.desafiofirebase.home.view
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -12,18 +16,30 @@ import com.example.myapplication.desafiofirebase.detail.view.DetailActivity
 import com.example.myapplication.desafiofirebase.game.model.GameModel
 import com.example.myapplication.desafiofirebase.game.repository.GameRepository
 import com.example.myapplication.desafiofirebase.game.viewmodel.GameViewModel
+import com.example.myapplication.desafiofirebase.login.view.LoginActivity
 import com.example.myapplication.desafiofirebase.savegame.view.SaveGameActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 
 class HomeActivity : AppCompatActivity() {
 
     private val searchView: SearchView by lazy { findViewById(R.id.searchView) }
+
+
     private val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerGames) }
     private val btnNewGame: FloatingActionButton by lazy { findViewById(R.id.btnNewGame) }
 
     private lateinit var _homeAdapter: HomeAdapter
     private lateinit var _viewModel: GameViewModel
+
+    private lateinit var ref: DatabaseReference
+    private var databse = FirebaseDatabase.getInstance()
+    private lateinit var auth: FirebaseAuth
 
     private val _gameList = mutableListOf<GameModel>()
 
@@ -31,9 +47,13 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        auth = Firebase.auth
+        ref = databse.getReference(auth.currentUser!!.uid)
+
         val manager = GridLayoutManager(this, 2)
 
         viewModelProvider()
+        getGames(ref, this, _gameList)
         setUpNavigation()
         setUpRecyclerView(recyclerView, manager)
 
@@ -41,9 +61,14 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, SaveGameActivity::class.java)
             startActivity(intent)
         }
-
     }
 
+    fun getGames(ref: DatabaseReference, context: Context, list: List<GameModel>) {
+        _viewModel.getGames(ref, context, _gameList).observe(this, {
+            list.let {_gameList.addAll(it)}
+            _homeAdapter.notifyDataSetChanged()
+        })
+    }
 
     private fun setUpRecyclerView(
         recyclerView: RecyclerView,
