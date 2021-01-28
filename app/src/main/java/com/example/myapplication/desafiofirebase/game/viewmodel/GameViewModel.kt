@@ -1,8 +1,6 @@
 package com.example.myapplication.desafiofirebase.game.viewmodel
 
-import android.content.ContentResolver
 import android.content.Context
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
@@ -10,15 +8,10 @@ import com.example.myapplication.desafiofirebase.game.model.GameModel
 import com.example.myapplication.desafiofirebase.game.repository.GameRepository
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import java.lang.Thread.sleep
 
 class GameViewModel(private val repository: GameRepository): ViewModel() {
 
-    private var _gamesBeforeSearch = mutableListOf<GameModel>()
     private var _games = mutableListOf<GameModel>()
 
     fun addUser(userId: String, databse: FirebaseDatabase) = liveData(Dispatchers.IO){
@@ -42,11 +35,8 @@ class GameViewModel(private val repository: GameRepository): ViewModel() {
         emit(listGames as List<GameModel>)
     }
 
-    fun initialList() = _gamesBeforeSearch
-
-    fun searchByName(string: String, context: Context, ref: DatabaseReference) = liveData(Dispatchers.IO){
-        _gamesBeforeSearch = _games
-        val response = repository.searchByName(string, ref, _games, context)
+    fun searchByName(string: String, ref: DatabaseReference) = liveData(Dispatchers.IO){
+        val response = repository.searchByName(string, ref)
         emit(response)
     }
 

@@ -6,8 +6,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.myapplication.desafiofirebase.R
-import com.example.myapplication.desafiofirebase.editgame.EditGameActivity
-import com.example.myapplication.desafiofirebase.savegame.view.SaveGameActivity
+import com.example.myapplication.desafiofirebase.editgame.view.EditGameActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.squareup.picasso.Picasso
 

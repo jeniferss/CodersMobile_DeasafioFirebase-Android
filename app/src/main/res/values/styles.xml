@@ -12,6 +12,10 @@
         <item name="colorControlNormal">@color/colorGray</item>
         <item name="actionMenuTextColor">@color/colorRed</item>
         <item name="iconTint">@color/colorGray</item>
+        <item name="hintEnabled">true</item>
+        <item name="android:textColorHint">@color/colorGray</item>
+        <item name="hintTextColor">@color/colorGray</item>
+        <item name="android:hint">"ex: Game-AnoLancamento"</item>
         <item name="android:voiceIcon">@drawable/ic_baseline_mic_24</item>
     </style>
 </resources>

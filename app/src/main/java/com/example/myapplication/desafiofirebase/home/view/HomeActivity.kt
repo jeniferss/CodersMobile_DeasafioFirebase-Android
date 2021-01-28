@@ -52,6 +52,8 @@ class HomeActivity : AppCompatActivity() {
         auth = Firebase.auth
         ref = databse.getReference(auth.currentUser!!.uid)
 
+        searchView.queryHint = "ex: Game-Ano"
+
         val manager = GridLayoutManager(this, 2)
 
         viewModelProvider()
@@ -64,6 +66,8 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, SaveGameActivity::class.java)
             startActivity(intent)
         }
+
+        searchByName()
     }
 
     private fun refresh() {
@@ -78,6 +82,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getGames(ref: DatabaseReference, context: Context, list: List<GameModel>) {
+        _gameList.clear()
         _viewModel.getGames(ref, context, _gameList).observe(this, {
             list.let {_gameList.addAll(it)}
             _homeAdapter.notifyDataSetChanged()
@@ -117,9 +122,10 @@ class HomeActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                _viewModel.searchByName(query!!, this@HomeActivity, ref).observe(this@HomeActivity, {
+                _viewModel.searchByName(query!!,  ref).observe(this@HomeActivity, {
                     _gameList.clear()
-                    getGames(ref, this@HomeActivity, it)
+                    _gameList.add(it!!)
+                    _homeAdapter.notifyDataSetChanged()
                 })
                 return false
             }
@@ -127,7 +133,8 @@ class HomeActivity : AppCompatActivity() {
             override fun onQueryTextChange(newText: String?): Boolean {
                 if(newText.isNullOrEmpty()){
                     _gameList.clear()
-                    getGames(ref, this@HomeActivity, _viewModel.initialList())
+                    getGames(ref, this@HomeActivity, _gameList)
+                    _homeAdapter.notifyDataSetChanged()
                 }
                 return false
             }

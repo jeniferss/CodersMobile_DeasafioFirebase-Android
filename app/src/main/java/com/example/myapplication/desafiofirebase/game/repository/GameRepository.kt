@@ -47,25 +47,22 @@ class GameRepository {
         return databse.getReference(userId)
     }
 
-    suspend fun searchByName(nome: String, ref: DatabaseReference, list: MutableList<GameModel>, context: Context): MutableList<GameModel> {
-        val queryCamp = "nome"
+    suspend fun searchByName(string: String, ref: DatabaseReference): GameModel? {
 
-        val query = ref.child(nome.toLowerCase(Locale.ROOT)).orderByChild(queryCamp).equalTo(nome.toLowerCase(Locale.ROOT))
+        val path = string.toLowerCase(Locale.ROOT)
+        val query = ref.child(path)
+        var game: GameModel? = GameModel()
 
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-
+        query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                list.clear()
-                for (dataSnapshot1 in snapshot.children) {
-                    val game: GameModel? = dataSnapshot1.getValue(GameModel::class.java)
-                    list.add(game!!)
-                }
+                game = snapshot.getValue(GameModel::class.java)
             }
+
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, "Erro ao carregar lista", Toast.LENGTH_SHORT).show()
+
             }
         })
         delay(1500)
-        return list
+        return game
     }
 }

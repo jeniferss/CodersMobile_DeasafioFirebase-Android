@@ -1,4 +1,4 @@
-package com.example.myapplication.desafiofirebase.editgame
+package com.example.myapplication.desafiofirebase.editgame.view
 
 import android.content.Intent
 import android.net.Uri
@@ -22,7 +22,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
-import java.util.*
 
 class EditGameActivity : AppCompatActivity() {
 

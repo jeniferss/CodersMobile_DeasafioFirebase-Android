@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".editgame.EditGameActivity"></activity>
+        <activity android:name=".editgame.view.EditGameActivity"></activity>
         <activity android:name=".savegame.view.SaveGameActivity" />
         <activity android:name=".register.view.RegisterActivity" />
         <activity android:name=".login.view.LoginActivity" />
