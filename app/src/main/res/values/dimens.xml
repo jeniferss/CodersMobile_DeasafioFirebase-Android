@@ -32,4 +32,7 @@
     <dimen name="dim_300_dp">300dp</dimen>
     <dimen name="dim_270_dp">270dp</dimen>
     <dimen name="dim_200_dp">200dp</dimen>
+    <dimen name="dim_60_dp">60dp</dimen>
+    <dimen name="dim_50_dp">50dp</dimen>
+    <dimen name="dim_48_dp">48dp</dimen>
 </resources>

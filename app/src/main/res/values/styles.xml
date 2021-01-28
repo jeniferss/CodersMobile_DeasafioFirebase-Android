@@ -4,18 +4,16 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorOnSecondary">@color/colorWhite</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="SearchViewTheme" parent="Widget.AppCompat.SearchView">
-        <item name="background">@color/colorWhite</item>
-        <item name="colorControlNormal">@color/colorGray</item>
-        <item name="actionMenuTextColor">@color/colorRed</item>
-        <item name="iconTint">@color/colorGray</item>
-        <item name="hintEnabled">true</item>
+    <style name="Search" parent="">
+        <item name="tint">#B5B5B5</item>
         <item name="android:textColorHint">@color/colorGray</item>
+        <item name="editTextColor">@color/colorGray</item>
+        <item name="android:editTextColor">@color/colorGray</item>
         <item name="hintTextColor">@color/colorGray</item>
-        <item name="android:hint">"ex: Game-AnoLancamento"</item>
-        <item name="android:voiceIcon">@drawable/ic_baseline_mic_24</item>
     </style>
+
 </resources>

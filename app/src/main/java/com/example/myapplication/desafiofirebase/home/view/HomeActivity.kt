@@ -1,15 +1,12 @@
 package com.example.myapplication.desafiofirebase.home.view
 
-import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.speech.RecognizerIntent
 import android.view.View
-import android.widget.LinearLayout
-import android.widget.SearchView
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +16,6 @@ import com.example.myapplication.desafiofirebase.detail.view.DetailActivity
 import com.example.myapplication.desafiofirebase.game.model.GameModel
 import com.example.myapplication.desafiofirebase.game.repository.GameRepository
 import com.example.myapplication.desafiofirebase.game.viewmodel.GameViewModel
-import com.example.myapplication.desafiofirebase.login.view.LoginActivity
 import com.example.myapplication.desafiofirebase.savegame.view.SaveGameActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -27,15 +23,15 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.delay
-
+import java.util.*
 
 class HomeActivity : AppCompatActivity() {
 
     private val searchView: SearchView by lazy { findViewById(R.id.searchView) }
+    private val iconMic: ImageView by lazy { findViewById(R.id.micIcon)}
     private val swipeRefreshLayout: SwipeRefreshLayout by lazy { findViewById(R.id.swipeToRefresh) }
 
-    private val noResult: LinearLayout by lazy {findViewById(R.id.noResult)}
+    private val noResult: LinearLayout by lazy { findViewById(R.id.noResult) }
 
     private val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerGames) }
     private val btnNewGame: FloatingActionButton by lazy { findViewById(R.id.btnNewGame) }
@@ -53,10 +49,10 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        searchView.queryHint = "ex: Game-Ano"
+
         auth = Firebase.auth
         ref = databse.getReference(auth.currentUser!!.uid)
-
-        searchView.queryHint = "ex: Game-Ano"
 
         val manager = GridLayoutManager(this, 2)
 
@@ -69,6 +65,10 @@ class HomeActivity : AppCompatActivity() {
         btnNewGame.setOnClickListener {
             val intent = Intent(this, SaveGameActivity::class.java)
             startActivity(intent)
+        }
+
+        iconMic.setOnClickListener {
+            searchByVoice()
         }
 
         searchByName()
@@ -88,7 +88,7 @@ class HomeActivity : AppCompatActivity() {
     private fun getGames(ref: DatabaseReference, context: Context, list: List<GameModel>) {
         _gameList.clear()
         _viewModel.getGames(ref, context, _gameList).observe(this, {
-            list.let {_gameList.addAll(it)}
+            list.let { _gameList.addAll(it) }
             _homeAdapter.notifyDataSetChanged()
         })
     }
@@ -122,22 +122,23 @@ class HomeActivity : AppCompatActivity() {
             )
     }
 
-    private fun searchByName(){
+    private fun searchByName() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                _viewModel.searchByName(query!!,  ref, recyclerView, noResult).observe(this@HomeActivity, {
-                    if(isFound(it!!)){
-                        _gameList.clear()
-                        _gameList.add(it!!)
-                        _homeAdapter.notifyDataSetChanged()
-                    }
-                })
+                _viewModel.searchByName(query!!, ref, recyclerView, noResult)
+                    .observe(this@HomeActivity, {
+                        if (isFound(it!!)) {
+                            _gameList.clear()
+                            _gameList.add(it!!)
+                            _homeAdapter.notifyDataSetChanged()
+                        }
+                    })
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText.isNullOrEmpty()){
+                if (newText.isNullOrEmpty()) {
                     recyclerView.visibility = View.VISIBLE
                     noResult.visibility = View.GONE
                     _gameList.clear()
@@ -150,11 +151,46 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun isFound(gameModel: GameModel): Boolean {
-        if(gameModel.nome.isEmpty()){
+        if (gameModel.nome.isEmpty()) {
             recyclerView.visibility = View.GONE
             noResult.visibility = View.VISIBLE
             return false
         }
         return true
+    }
+
+    private fun searchByVoice() {
+
+        val intent = Intent(
+            RecognizerIntent
+                .ACTION_RECOGNIZE_SPEECH
+        )
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+            RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+        )
+        intent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE,
+            Locale.getDefault()
+        )
+
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivityForResult(intent, 10)
+        } else {
+            Toast.makeText(
+                this,
+                "Recurso indisponível",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 10 && resultCode == RESULT_OK && data != null){
+            val result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            searchView.setQuery(result?.get(0), false)
+        }
     }
 }

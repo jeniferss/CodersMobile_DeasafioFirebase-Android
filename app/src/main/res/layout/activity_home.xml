@@ -7,18 +7,30 @@
     android:background="@color/colorLightGray"
     tools:context=".home.view.HomeActivity">
 
+    <ImageView
+        android:id="@+id/micIcon"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_baseline_mic_24"
+        app:layout_constraintStart_toEndOf="@id/searchView"
+        app:layout_constraintTop_toTopOf="@id/searchView"
+        android:background="@color/colorWhite"
+        android:padding="@dimen/dim_5_dp"
+        app:layout_constraintBottom_toBottomOf="@id/searchView"
+        android:layout_height="@dimen/dim_48_dp"/>
+
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dim_20_dp"
         android:layout_marginTop="@dimen/dim_10_dp"
-        android:layout_marginEnd="@dimen/dim_20_dp"
+        android:layout_marginEnd="@dimen/dim_60_dp"
         android:layout_marginBottom="@dimen/dim_15_dp"
-        android:theme="@style/SearchViewTheme"
+        style="@style/Search"
+        android:theme="@style/Search"
         app:layout_constraintEnd_toEndOf="parent"
-        android:voiceIcon="@drawable/ic_baseline_mic_24"
         android:iconifiedByDefault="true"
+        android:background="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -62,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="nenhum resultado encontrado"
+            android:text="@string/nenhum_resultado_encontrado"
             android:textAllCaps="true"
             android:textColor="@color/colorGrayDark"
             android:textSize="@dimen/dim_20_sp"/>
@@ -77,6 +89,7 @@
         android:layout_marginEnd="@dimen/dim_10_dp"
         android:layout_marginBottom="@dimen/dim_10_dp"
         android:src="@drawable/ic_baseline_add"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

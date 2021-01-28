@@ -12,4 +12,5 @@
     <string name="save">Save</string>
     <string name="ano">2021</string>
     <string name="hintsearch">ex: Game-Ano</string>
+    <string name="nenhum_resultado_encontrado">nenhum resultado encontrado</string>
 </resources>
