@@ -21,6 +21,8 @@ class DetailActivity : AppCompatActivity() {
     private val tvAnoDetalhe: TextView by lazy { findViewById(R.id.tvAnoDetalhe) }
     private val tvDescricaoDetalhe: TextView by lazy { findViewById(R.id.tvDescription) }
 
+    private lateinit var imgUrl: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
@@ -28,7 +30,7 @@ class DetailActivity : AppCompatActivity() {
         val nome = intent.getStringExtra("NAME")
         val descricao = intent.getStringExtra("DESCRICAO")
         val data = intent.getStringExtra("LANCAMENTO")
-        val imgURL = intent.getStringExtra("IMG_URL")
+        imgUrl = intent.getStringExtra("IMG_URL")!!
 
         btnBack.setOnClickListener {
             finish()
@@ -42,7 +44,7 @@ class DetailActivity : AppCompatActivity() {
         tvSecondNameDetail.text = nome
         tvAnoDetalhe.text = data
         tvDescricaoDetalhe.text = descricao
-        Picasso.get().load(imgURL).into(imgGameDetail)
+        Picasso.get().load(imgUrl).into(imgGameDetail)
     }
 
     override fun onBackPressed() {
@@ -55,6 +57,7 @@ class DetailActivity : AppCompatActivity() {
         intent.putExtra("NAMEA", nome)
         intent.putExtra("LANCAMENTOA", data)
         intent.putExtra("DESCRICAOA", descricao)
+        intent.putExtra("URL", imgUrl)
         startActivity(intent)
         finish()
     }

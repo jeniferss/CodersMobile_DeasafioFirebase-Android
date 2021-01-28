@@ -38,7 +38,7 @@ class SaveGameActivity : AppCompatActivity() {
     private lateinit var _viewModel: GameViewModel
 
     private lateinit var imgUri: Uri
-    private lateinit var imgURL: String
+    private var imgURL: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -163,22 +163,27 @@ class SaveGameActivity : AppCompatActivity() {
         data: String,
         description: String
     ): Boolean {
-        if (nome.isEmpty()) {
-            etNameGame.error = RegisterActivity.ERRO_VAZIO
-            return false
-        } else if (data.isEmpty()) {
-            etDataGame.error = RegisterActivity.ERRO_VAZIO
-            return false
-        } else if (description.isEmpty()) {
-            etDescriptionGame.error = RegisterActivity.ERRO_VAZIO
-            return false
-        } else {
-            return true
+        return when {
+            nome.isEmpty() -> {
+                etNameGame.error = RegisterActivity.ERRO_VAZIO
+                false
+            }
+            data.isEmpty() -> {
+                etDataGame.error = RegisterActivity.ERRO_VAZIO
+                false
+            }
+            description.isEmpty() -> {
+                etDescriptionGame.error = RegisterActivity.ERRO_VAZIO
+                false
+            }
+            else -> {
+                true
+            }
         }
     }
 
     private fun noImage(imgPath: String){
-        if(imgPath.isNullOrEmpty()){
+        if(imgPath.isEmpty()){
             imgURL = "https://www.solidbackgrounds.com/images/1024x600/1024x600-black-solid-color-background.jpg"
         }
     }

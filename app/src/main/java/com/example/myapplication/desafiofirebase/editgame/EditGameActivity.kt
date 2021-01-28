@@ -22,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.*
 
 class EditGameActivity : AppCompatActivity() {
 
@@ -39,7 +40,7 @@ class EditGameActivity : AppCompatActivity() {
     private lateinit var _viewModel: GameViewModel
 
     private lateinit var imgUri: Uri
-    private lateinit var imgURL: String
+    private var imgURL: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +49,19 @@ class EditGameActivity : AppCompatActivity() {
         val nomeAtual = intent.getStringExtra("NAMEA")
         val descricaoAtual = intent.getStringExtra("DESCRICAOA")
         val dataAtual = intent.getStringExtra("LANCAMENTOA")
-        val imgAtual = intent.getStringExtra("IMG_URL")
+        val imgAtual = intent.getStringExtra("URL")
 
         etNameGame.setText(nomeAtual)
         etDataGame.setText(dataAtual)
         etDescriptionGame.setText(descricaoAtual)
         Picasso.get().load(imgAtual).into(img)
 
+
         viewModelProvider()
 
         auth = Firebase.auth
-        ref = database.getReference(auth.currentUser!!.uid).child(nomeAtual!!)
+        val path = nomeAtual!!.toLowerCase() + "-" + dataAtual
+        ref = database.getReference(auth.currentUser!!.uid).child(path)
         val refId = database.getReference(auth.currentUser!!.uid)
 
         img.setOnClickListener {
@@ -71,7 +74,7 @@ class EditGameActivity : AppCompatActivity() {
             val description = etDescriptionGame.text.toString()
 
             if(camposVazios(name, data, description)) {
-                noImage(imgURL)
+                if(imgURL.isEmpty()){imgURL = imgAtual!!}
                 editGame(ref, name, data, description, imgURL, refId)
             }
         }
@@ -97,7 +100,7 @@ class EditGameActivity : AppCompatActivity() {
     }
 
     private fun noImage(imgPath: String){
-        if(imgPath.isNullOrEmpty()){
+        if(imgPath.isEmpty()){
             imgURL = "https://www.solidbackgrounds.com/images/1024x600/1024x600-black-solid-color-background.jpg"
         }
     }

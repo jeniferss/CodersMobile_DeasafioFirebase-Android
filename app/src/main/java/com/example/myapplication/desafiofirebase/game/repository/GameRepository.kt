@@ -1,25 +1,17 @@
 package com.example.myapplication.desafiofirebase.game.repository
 
-import android.content.ContentResolver
 import android.content.Context
-import android.net.Uri
-import android.webkit.MimeTypeMap
-import android.widget.SearchView
 import android.widget.Toast
 import com.example.myapplication.desafiofirebase.game.model.GameModel
-import com.google.android.gms.tasks.Task
 import com.google.firebase.database.*
-import com.google.firebase.storage.FirebaseStorage
-import com.squareup.picasso.Picasso
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.delay
-import java.lang.Thread.sleep
-
+import java.util.*
 
 class GameRepository {
 
     fun addGame(ref: DatabaseReference, gameModel: GameModel) {
-        val newGame = ref.child(gameModel.nome)
+        val path = gameModel.nome.toLowerCase(Locale.ROOT) + "-" + gameModel.dataLancamento
+        val newGame = ref.child(path)
         newGame.setValue(gameModel)
     }
 
@@ -52,14 +44,13 @@ class GameRepository {
     }
 
     fun addUser(userId: String, databse: FirebaseDatabase): DatabaseReference {
-        val ref = databse.getReference(userId)
-        return ref
+        return databse.getReference(userId)
     }
 
     suspend fun searchByName(nome: String, ref: DatabaseReference, list: MutableList<GameModel>, context: Context): MutableList<GameModel> {
         val queryCamp = "nome"
 
-        val query = ref.child(nome).orderByChild(queryCamp).equalTo(nome)
+        val query = ref.child(nome.toLowerCase(Locale.ROOT)).orderByChild(queryCamp).equalTo(nome.toLowerCase(Locale.ROOT))
 
         query.addListenerForSingleValueEvent(object : ValueEventListener {
 
