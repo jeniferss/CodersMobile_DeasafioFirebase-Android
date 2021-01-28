@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -32,6 +34,8 @@ class HomeActivity : AppCompatActivity() {
 
     private val searchView: SearchView by lazy { findViewById(R.id.searchView) }
     private val swipeRefreshLayout: SwipeRefreshLayout by lazy { findViewById(R.id.swipeToRefresh) }
+
+    private val noResult: LinearLayout by lazy {findViewById(R.id.noResult)}
 
     private val recyclerView: RecyclerView by lazy { findViewById(R.id.recyclerGames) }
     private val btnNewGame: FloatingActionButton by lazy { findViewById(R.id.btnNewGame) }
@@ -122,16 +126,20 @@ class HomeActivity : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                _viewModel.searchByName(query!!,  ref).observe(this@HomeActivity, {
-                    _gameList.clear()
-                    _gameList.add(it!!)
-                    _homeAdapter.notifyDataSetChanged()
+                _viewModel.searchByName(query!!,  ref, recyclerView, noResult).observe(this@HomeActivity, {
+                    if(isFound(it!!)){
+                        _gameList.clear()
+                        _gameList.add(it!!)
+                        _homeAdapter.notifyDataSetChanged()
+                    }
                 })
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if(newText.isNullOrEmpty()){
+                    recyclerView.visibility = View.VISIBLE
+                    noResult.visibility = View.GONE
                     _gameList.clear()
                     getGames(ref, this@HomeActivity, _gameList)
                     _homeAdapter.notifyDataSetChanged()
@@ -139,5 +147,14 @@ class HomeActivity : AppCompatActivity() {
                 return false
             }
         })
+    }
+
+    private fun isFound(gameModel: GameModel): Boolean {
+        if(gameModel.nome.isEmpty()){
+            recyclerView.visibility = View.GONE
+            noResult.visibility = View.VISIBLE
+            return false
+        }
+        return true
     }
 }

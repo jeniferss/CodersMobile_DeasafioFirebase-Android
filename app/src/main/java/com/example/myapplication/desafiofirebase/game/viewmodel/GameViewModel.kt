@@ -1,9 +1,11 @@
 package com.example.myapplication.desafiofirebase.game.viewmodel
 
 import android.content.Context
+import android.widget.LinearLayout
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.liveData
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.desafiofirebase.game.model.GameModel
 import com.example.myapplication.desafiofirebase.game.repository.GameRepository
 import com.google.firebase.database.DatabaseReference
@@ -35,8 +37,8 @@ class GameViewModel(private val repository: GameRepository): ViewModel() {
         emit(listGames as List<GameModel>)
     }
 
-    fun searchByName(string: String, ref: DatabaseReference) = liveData(Dispatchers.IO){
-        val response = repository.searchByName(string, ref)
+    fun searchByName(string: String, ref: DatabaseReference, recyclerView: RecyclerView, linearLayout: LinearLayout) = liveData(Dispatchers.IO){
+        val response = repository.searchByName(string, ref, recyclerView, linearLayout)
         emit(response)
     }
 

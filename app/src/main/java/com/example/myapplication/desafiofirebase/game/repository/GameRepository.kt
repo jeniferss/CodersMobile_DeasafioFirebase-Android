@@ -1,7 +1,10 @@
 package com.example.myapplication.desafiofirebase.game.repository
 
 import android.content.Context
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.desafiofirebase.game.model.GameModel
 import com.google.firebase.database.*
 import kotlinx.coroutines.delay
@@ -47,7 +50,7 @@ class GameRepository {
         return databse.getReference(userId)
     }
 
-    suspend fun searchByName(string: String, ref: DatabaseReference): GameModel? {
+    suspend fun searchByName(string: String, ref: DatabaseReference, recyclerView: RecyclerView, linearLayout: LinearLayout): GameModel? {
 
         val path = string.toLowerCase(Locale.ROOT)
         val query = ref.child(path)
@@ -55,11 +58,14 @@ class GameRepository {
 
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                game = snapshot.getValue(GameModel::class.java)
+                if(snapshot.exists()){ game = snapshot.getValue(GameModel::class.java) }
+                else {
+                    recyclerView.visibility = View.GONE
+                    linearLayout.visibility = View.VISIBLE
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
-
             }
         })
         delay(1500)
