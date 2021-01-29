@@ -9,8 +9,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="@color/colorWhite"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
 
         <ImageView
             android:id="@+id/imgGameDetail"
@@ -67,10 +67,10 @@
         <TextView
             android:id="@+id/tvAnoDetalhe"
             android:layout_width="match_parent"
-            android:layout_marginEnd="@dimen/dim_28_dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dim_28_dp"
             android:layout_marginTop="@dimen/dim_4_dp"
+            android:layout_marginEnd="@dimen/dim_28_dp"
             android:text="@string/ano"
             android:textColor="@color/colorGray"
             android:textSize="@dimen/dim_18_sp"
@@ -83,8 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dim_28_dp"
             android:layout_marginTop="@dimen/dim_20_dp"
-            android:text="@string/description"
             android:layout_marginEnd="@dimen/dim_28_dp"
+            android:text="@string/description"
             android:textColor="@color/colorGray"
             android:textSize="@dimen/dim_18_sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -97,8 +97,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dim_270_dp"
             android:layout_marginEnd="16dp"
-            android:tint="@color/colorWhite"
             android:src="@drawable/ic_baseline_edit"
+            android:tint="@color/colorWhite"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
 
-            if(prefsChecked && user != null){
+            if (prefsChecked && user != null) {
                 val intent = Intent(this, HomeActivity::class.java)
                 startActivity(intent)
                 finish()
@@ -40,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
         }, 3000)
     }
 
-    companion object{
+    companion object {
         const val APP_NAME = "DesafioFirebase"
         const val NOTIFICATION_PREFS = "NOTIFICATION_PREFS"
     }

@@ -22,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
+import java.util.*
 
 class EditGameActivity : AppCompatActivity() {
 
@@ -55,11 +56,10 @@ class EditGameActivity : AppCompatActivity() {
         etDescriptionGame.setText(descricaoAtual)
         Picasso.get().load(imgAtual).into(img)
 
-
         viewModelProvider()
 
         auth = Firebase.auth
-        val path = nomeAtual!!.toLowerCase() + "-" + dataAtual
+        val path = nomeAtual!!.toLowerCase(Locale.ROOT) + "-" + dataAtual
         ref = database.getReference(auth.currentUser!!.uid).child(path)
         val refId = database.getReference(auth.currentUser!!.uid)
 
@@ -72,8 +72,10 @@ class EditGameActivity : AppCompatActivity() {
             val data = etDataGame.text.toString()
             val description = etDescriptionGame.text.toString()
 
-            if(camposVazios(name, data, description)) {
-                if(imgURL.isEmpty()){imgURL = imgAtual!!}
+            if (camposVazios(name, data, description)) {
+                if (imgURL.isEmpty()) {
+                    imgURL = imgAtual!!
+                }
                 editGame(ref, name, data, description, imgURL, refId)
             }
         }
@@ -84,23 +86,17 @@ class EditGameActivity : AppCompatActivity() {
         data: String,
         description: String
     ): Boolean {
-        if (nome.isEmpty()) {
+        return if (nome.isEmpty()) {
             etNameGame.error = RegisterActivity.ERRO_VAZIO
-            return false
+            false
         } else if (data.isEmpty()) {
             etDataGame.error = RegisterActivity.ERRO_VAZIO
-            return false
+            false
         } else if (description.isEmpty()) {
             etDescriptionGame.error = RegisterActivity.ERRO_VAZIO
-            return false
+            false
         } else {
-            return true
-        }
-    }
-
-    private fun noImage(imgPath: String){
-        if(imgPath.isEmpty()){
-            imgURL = "https://www.solidbackgrounds.com/images/1024x600/1024x600-black-solid-color-background.jpg"
+            true
         }
     }
 

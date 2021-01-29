@@ -1,18 +1,16 @@
 package com.example.myapplication.desafiofirebase.login.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.desafiofirebase.R
 import com.example.myapplication.desafiofirebase.home.view.HomeActivity
 import com.example.myapplication.desafiofirebase.register.view.RegisterActivity
-import com.example.myapplication.desafiofirebase.savegame.view.SaveGameActivity
 import com.example.myapplication.desafiofirebase.splashscreen.view.SplashActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

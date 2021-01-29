@@ -10,27 +10,27 @@
     <ImageView
         android:id="@+id/micIcon"
         android:layout_width="wrap_content"
-        android:src="@drawable/ic_baseline_mic_24"
-        app:layout_constraintStart_toEndOf="@id/searchView"
-        app:layout_constraintTop_toTopOf="@id/searchView"
+        android:layout_height="@dimen/dim_48_dp"
         android:background="@color/colorWhite"
         android:padding="@dimen/dim_5_dp"
+        android:src="@drawable/ic_baseline_mic_24"
         app:layout_constraintBottom_toBottomOf="@id/searchView"
-        android:layout_height="@dimen/dim_48_dp"/>
+        app:layout_constraintStart_toEndOf="@id/searchView"
+        app:layout_constraintTop_toTopOf="@id/searchView" />
 
     <SearchView
         android:id="@+id/searchView"
+        style="@style/Search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/dim_20_dp"
         android:layout_marginTop="@dimen/dim_10_dp"
         android:layout_marginEnd="@dimen/dim_60_dp"
         android:layout_marginBottom="@dimen/dim_15_dp"
-        style="@style/Search"
+        android:background="@color/colorWhite"
+        android:iconifiedByDefault="true"
         android:theme="@style/Search"
         app:layout_constraintEnd_toEndOf="parent"
-        android:iconifiedByDefault="true"
-        android:background="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,12 +45,12 @@
         app:layout_constraintStart_toStartOf="@+id/searchView"
         app:layout_constraintTop_toBottomOf="@+id/searchView">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerGames"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:isScrollContainer="true"
-        tools:listitem="@layout/item_game" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerGames"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:isScrollContainer="true"
+            tools:listitem="@layout/item_game" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -61,11 +61,11 @@
         android:layout_marginStart="@dimen/dim_10_dp"
         android:layout_marginTop="@dimen/dim_70_dp"
         android:layout_marginEnd="@dimen/dim_10_dp"
-        app:layout_constraintEnd_toEndOf="@id/searchView"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="@dimen/dim_20_dp"
         android:background="@color/colorLightGray"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/searchView"
         app:layout_constraintStart_toStartOf="@+id/searchView"
         app:layout_constraintTop_toBottomOf="@+id/searchView">
 
@@ -77,7 +77,7 @@
             android:text="@string/nenhum_resultado_encontrado"
             android:textAllCaps="true"
             android:textColor="@color/colorGrayDark"
-            android:textSize="@dimen/dim_20_sp"/>
+            android:textSize="@dimen/dim_20_sp" />
 
     </LinearLayout>
 
@@ -89,7 +89,6 @@
         android:layout_marginEnd="@dimen/dim_10_dp"
         android:layout_marginBottom="@dimen/dim_10_dp"
         android:src="@drawable/ic_baseline_add"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

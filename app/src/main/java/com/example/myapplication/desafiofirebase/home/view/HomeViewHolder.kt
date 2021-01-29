@@ -8,7 +8,7 @@ import com.example.myapplication.desafiofirebase.R
 import com.example.myapplication.desafiofirebase.game.model.GameModel
 import com.squareup.picasso.Picasso
 
-class HomeViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     private val imgGame = view.findViewById<ImageView>(R.id.imgCardPersonagem)
     private val nomeGame = view.findViewById<TextView>(R.id.tvNameGame)

@@ -1,19 +1,16 @@
 package com.example.myapplication.desafiofirebase.register.view
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.desafiofirebase.R
-import com.example.myapplication.desafiofirebase.home.view.HomeActivity
 import com.example.myapplication.desafiofirebase.login.view.LoginActivity
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 
 class RegisterActivity : AppCompatActivity() {
@@ -58,20 +55,26 @@ class RegisterActivity : AppCompatActivity() {
         senha: String,
         senhaRepeate: String
     ): Boolean {
-        if (nome.isEmpty()) {
-            etNomeRegister.error = ERRO_VAZIO
-            return false
-        } else if (email.isEmpty()) {
-            etEmailRegister.error = ERRO_VAZIO
-            return false
-        } else if (senha.isEmpty()) {
-            etSenhaRegister.error = ERRO_VAZIO
-            return false
-        } else if (senhaRepeate.isEmpty()) {
-            etRepeateSenha.error = ERRO_VAZIO
-            return false
-        } else {
-            return true
+        return when {
+            nome.isEmpty() -> {
+                etNomeRegister.error = ERRO_VAZIO
+                false
+            }
+            email.isEmpty() -> {
+                etEmailRegister.error = ERRO_VAZIO
+                false
+            }
+            senha.isEmpty() -> {
+                etSenhaRegister.error = ERRO_VAZIO
+                false
+            }
+            senhaRepeate.isEmpty() -> {
+                etRepeateSenha.error = ERRO_VAZIO
+                false
+            }
+            else -> {
+                true
+            }
         }
     }
 
@@ -105,7 +108,11 @@ class RegisterActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    Toast.makeText(baseContext, "Usuário criado com sucesso! Cheque seu email para autenticação", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        baseContext,
+                        "Usuário criado com sucesso! Cheque seu email para autenticação",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     sendEmail(user!!)
                     val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                     startActivity(intent)

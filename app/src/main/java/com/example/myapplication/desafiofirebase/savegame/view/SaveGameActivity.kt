@@ -58,7 +58,7 @@ class SaveGameActivity : AppCompatActivity() {
             val data = etDataGame.text.toString()
             val description = etDescriptionGame.text.toString()
 
-            if(camposVazios(name, data, description)) {
+            if (camposVazios(name, data, description)) {
                 noImage(imgURL)
                 addGame(ref, name, data, description, imgURL)
             }
@@ -182,9 +182,10 @@ class SaveGameActivity : AppCompatActivity() {
         }
     }
 
-    private fun noImage(imgPath: String){
-        if(imgPath.isEmpty()){
-            imgURL = "https://www.solidbackgrounds.com/images/1024x600/1024x600-black-solid-color-background.jpg"
+    private fun noImage(imgPath: String) {
+        if (imgPath.isEmpty()) {
+            imgURL =
+                "https://www.solidbackgrounds.com/images/1024x600/1024x600-black-solid-color-background.jpg"
         }
     }
 

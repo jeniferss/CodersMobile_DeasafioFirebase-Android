@@ -18,7 +18,7 @@ class GameRepository {
         newGame.setValue(gameModel)
     }
 
-    fun editGame(ref: DatabaseReference, gameModel: GameModel, refUser: DatabaseReference){
+    fun editGame(ref: DatabaseReference, gameModel: GameModel, refUser: DatabaseReference) {
         ref.removeValue()
         addGame(refUser, gameModel)
     }
@@ -32,9 +32,9 @@ class GameRepository {
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 list.clear()
-                    for (dataSnapshot1 in dataSnapshot.children) {
-                        val game: GameModel? = dataSnapshot1.getValue(GameModel::class.java)
-                        list.add(game!!)
+                for (dataSnapshot1 in dataSnapshot.children) {
+                    val game: GameModel? = dataSnapshot1.getValue(GameModel::class.java)
+                    list.add(game!!)
                 }
             }
 
@@ -50,7 +50,12 @@ class GameRepository {
         return databse.getReference(userId)
     }
 
-    suspend fun searchByName(string: String, ref: DatabaseReference, recyclerView: RecyclerView, linearLayout: LinearLayout): GameModel? {
+    suspend fun searchByName(
+        string: String,
+        ref: DatabaseReference,
+        recyclerView: RecyclerView,
+        linearLayout: LinearLayout
+    ): GameModel? {
 
         val path = string.toLowerCase(Locale.ROOT)
         val query = ref.child(path)
@@ -58,8 +63,9 @@ class GameRepository {
 
         query.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                if(snapshot.exists()){ game = snapshot.getValue(GameModel::class.java) }
-                else {
+                if (snapshot.exists()) {
+                    game = snapshot.getValue(GameModel::class.java)
+                } else {
                     recyclerView.visibility = View.GONE
                     linearLayout.visibility = View.VISIBLE
                 }

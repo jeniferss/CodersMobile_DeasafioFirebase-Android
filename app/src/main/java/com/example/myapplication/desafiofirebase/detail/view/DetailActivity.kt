@@ -51,7 +51,7 @@ class DetailActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun editGame(nome: String?, data: String?, descricao: String?){
+    private fun editGame(nome: String?, data: String?, descricao: String?) {
         val intent = Intent(this, EditGameActivity::class.java)
         intent.putExtra("NAMEA", nome)
         intent.putExtra("LANCAMENTOA", data)

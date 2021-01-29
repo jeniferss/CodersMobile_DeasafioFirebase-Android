@@ -30,7 +30,7 @@
             android:layout_marginStart="@dimen/dim_10_dp"
             android:layout_marginTop="@dimen/dim_16_dp"
             android:maxLines="2"
-            android:text="Nome"
+            android:text="@string/nome"
             android:layout_marginEnd="@dimen/dim_10_dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:textAllCaps="true"

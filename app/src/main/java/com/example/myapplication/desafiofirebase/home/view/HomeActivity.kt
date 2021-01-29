@@ -130,7 +130,7 @@ class HomeActivity : AppCompatActivity() {
                     .observe(this@HomeActivity, {
                         if (isFound(it!!)) {
                             _gameList.clear()
-                            _gameList.add(it!!)
+                            _gameList.add(it)
                             _homeAdapter.notifyDataSetChanged()
                         }
                     })

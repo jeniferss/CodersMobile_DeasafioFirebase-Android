@@ -22,27 +22,27 @@
             android:background="@color/colorWhite"
             android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilNameRegister"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/dim_19_dp"
-            android:layout_marginTop="@dimen/dim_26_dp"
-            android:layout_marginEnd="@dimen/dim_19_dp"
-            android:hint="@string/name"
-            android:textColorHint="@color/colorGray"
-            app:boxBackgroundColor="@color/colorWhite"
-            app:boxStrokeColor="@color/colorGray">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNameRegister"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilNameRegister"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/dim_18_sp" />
+                android:layout_marginStart="@dimen/dim_19_dp"
+                android:layout_marginTop="@dimen/dim_26_dp"
+                android:layout_marginEnd="@dimen/dim_19_dp"
+                android:hint="@string/name"
+                android:textColorHint="@color/colorGray"
+                app:boxBackgroundColor="@color/colorWhite"
+                app:boxStrokeColor="@color/colorGray">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNameRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/dim_18_sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilEmailRegister"
@@ -56,13 +56,13 @@
                 app:boxBackgroundColor="@color/colorWhite"
                 app:boxStrokeColor="@color/colorGray">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmailRegister"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/dim_18_sp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEmailRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/dim_18_sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,12 +118,12 @@
                 android:layout_marginStart="@dimen/dim_19_dp"
                 android:layout_marginTop="@dimen/dim_36_dp"
                 android:layout_marginEnd="@dimen/dim_19_dp"
-                android:backgroundTint="@color/colorRed"
-                android:padding="@dimen/dim_10_dp"
                 android:layout_marginBottom="@dimen/dim_21_dp"
+                android:backgroundTint="@color/colorRed"
+                android:lineSpacingMultiplier="0.38"
+                android:padding="@dimen/dim_10_dp"
                 android:text="@string/create_account"
                 android:textColor="@color/colorWhite"
-                android:lineSpacingMultiplier="0.38"
                 android:textSize="@dimen/dim_21_sp" />
 
         </LinearLayout>
